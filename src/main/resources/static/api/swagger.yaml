@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: User Registration API
+  description: This API allows for user registration and fetching user details.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/user/register:
+    post:
+      summary: Register a new user
+      description: This endpoint registers a new user with a username, email, and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUser'
+      responses:
+        '200':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiUser'
+        '400':
+          description: Invalid input
+  /api/user/fetch:
+    get:
+      summary: Fetch user details
+      description: This endpoint fetches user details based on the provided username.
+      parameters:
+        - in: query
+          name: username
+          required: true
+          schema:
+            type: string
+          description: The username of the user to fetch
+      responses:
+        '200':
+          description: User details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiUser'
+        '404':
+          description: User not found
+components:
+  schemas:
+    ApiUser:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of the user
+        email:
+          type: string
+          description: The email address of the user
+        password:
+          type: string
+          description: The password of the user
+      required:
+        - username
+        - email
+        - password
